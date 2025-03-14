@@ -8,7 +8,7 @@
 <body>
 
 @auth
-    <p>Congrats you are logged in.</p>
+    <p>Hello {{$user->name}}.</p>
     <form action="/logout" method="POST">
         @csrf
         <button>Log out</button>
@@ -22,6 +22,22 @@
             <textarea name="body" placeholder="body..."> </textarea>
             <button>Save</button>
         </form>
+    </div>
+
+    <div style="border: 3px solid black;">
+        <h2>All posts</h2>
+        @foreach ($posts as $post)
+            <div style="background-color: gray; padding: 10px; margin: 10px; border-radius: 10px;">
+                <h3>{{$post->title}}</h3>
+                <p>{{$post->body}}</p>
+                <p><a href="/edit-post/{{$post->id}}">Edit</a> </p>
+                <form action="/delete-post/{{$post->id}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button>Delete</button>
+                </form>
+            </div>
+        @endforeach
     </div>
 
 @else
